@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Deriving</title>
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Deriving</h1>
+    </header>
+    <main x-data="main" x-init="initialize({ $watch })">
+        <div id="input-group">
+            <div>
+                <label for="mnemonic">BIP39 Mnemonic</label>
+                <div>
+                    <textarea id="mnemonic" x-model.debounce="mnemonicValue" placeholder="Enter your mnemonic phrase here, typically 12 or 24 words long">
+                    <button @click="generateMnemonic()">Generate</button>
+                </div>
+            </div>
+            <div>
+                <label for="seed">BIP39 Seed</label>
+                <textarea id="seed" x-model="seedValue" disabled>
+            </div>
+            <div>
+                <label for="coin">Coin / Network</label>
+                <select id="coin" x-model="coinSelected">
+                    <template x-for="[key, coin] in Object.entries($store.coinList)">
+                        <option :value="key" x-text="`${coin.symbol} - ${coin.name}`" :selected="coinSelected == key"></option>
+                    </template>
+                </select>
+            </div>
+            <div>
+                <label for="derivpath">Derivation Path</label>
+                <select id="derivpath" x-model="dPathSelected">
+                    <template x-for="[name, val] in Object.entries($store.coinList[coinSelected].derivationPaths)">
+                        <option :value="name" x-text="`${name != 'default' ? name : 'Default'} - ${val}`" :selected="name == 'default'"></option>
+                    </template>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="custom-derivpath" placeholder="Enter custom derivation path" x-model.debounce="dPathValue" :disabled="dPathSelected != 'custom'">
+            </div>
+        </div>
+        <div id="result">
+            <div>
+                <div>Address</div>
+                <div id="address" x-text="resultKeyPair.address || '~'"></div>
+            </div>
+            <div>
+                <div>Public Key</div>
+                <div id="pubkey" x-text="resultKeyPair.publicKey || '~'"></div>
+            </div>
+            <div>
+                <div>Private Key</div>
+                <div id="prvkey" x-text="resultKeyPair.privateKey || '~'"></div>
+            </div>
+        </div>
+        <template x-teleport="body">
+            <div id="error-box" x-show="isError" x-text="errorText" x-transition.duration.400ms></div>
+        </template>
+    </main>
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

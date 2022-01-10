@@ -1,0 +1,26 @@
+{
+    "bitcoin": {
+        "symbol": "BTC",
+        "name": "Bitcoin",
+        "derivationPaths": {
+            "default": "m/44'/0'/0'/0/0",
+            "Bitcoin Core": "m/0'/0'/0'"
+        }
+    },
+    "ethereum": {
+        "symbol": "ETH",
+        "name": "Ethereum",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
+    "solana": {
+        "symbol": "SOL",
+        "name": "Solana",
+        "derivationPaths": {
+            "default": "m/44'/501'/0'/0'",
+            "Trust Wallet": "m/44'/501'/0'"
+        },
+        "hardenedDerivationOnly": true
+    }
+}

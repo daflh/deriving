@@ -1,0 +1,37 @@
+{
+  "name": "deriving",
+  "version": "1.0.0",
+  "description": "Derives addresses and private keys from mnemonic phrase for Bitcoin and other altcoins",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel --open",
+    "build": "parcel build",
+    "build:analyze": "parcel build --reporter @parcel/reporter-bundle-analyzer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dafiulh/deriving.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dafiulh/deriving/issues"
+  },
+  "homepage": "https://github.com/dafiulh/deriving#readme",
+  "dependencies": {
+    "alpinejs": "^3.7.1",
+    "bip32": "^2.0.6",
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "^6.0.1",
+    "bs58": "^4.0.1",
+    "ed25519-hd-key": "^1.2.0",
+    "ethereumjs-wallet": "^1.0.2",
+    "normalize.css": "^8.0.1",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@parcel/reporter-bundle-analyzer": "^2.1.1",
+    "parcel": "^2.1.1"
+  }
+}
