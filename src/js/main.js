@@ -40,10 +40,10 @@ const mainData = {
     errorText: ''
 };
 
-mainData.initialize = function ({ $watch }) {
+mainData.init = function () {
     this.dPathEvaluate();
 
-    $watch('mnemonicValue', () => {
+    this.$watch('mnemonicValue', () => {
         if (this.mnemonicValue !== '' && !this.isMnemonicValid()) {
             this.isError = true;
             this.errorText = 'Invalid mnemonic phrase';
@@ -52,17 +52,17 @@ mainData.initialize = function ({ $watch }) {
         }
     });
 
-    $watch('coinSelected', () => {
+    this.$watch('coinSelected', () => {
         this.dPathSelected = 'default';
         this.dPathEvaluate();
     });
 
-    $watch('dPathSelected', () => {
+    this.$watch('dPathSelected', () => {
         if (this.dPathSelected !== 'custom')
             this.dPathEvaluate();
     });
 
-    $watch('dPathValue', () => {
+    this.$watch('dPathValue', () => {
         if (!this.isDPathValid()) {
             const error = findDPathError(this.dPathValue, !!coinList[this.coinSelected].hardenedDerivationOnly);
 
