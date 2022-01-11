@@ -1,4 +1,11 @@
 {
+    "avalancheC": {
+        "symbol": "AVAX",
+        "name": "Avalanche C-Chain",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
     "bitcoin": {
         "symbol": "BTC",
         "name": "Bitcoin",
@@ -7,9 +14,79 @@
             "Bitcoin Core": "m/0'/0'/0'"
         }
     },
+    "bitcoinCash": {
+        "symbol": "BCH",
+        "name": "Bitcoin Cash",
+        "derivationPaths": {
+            "default": "m/44'/145'/0'/0/0"
+        }
+    },
+    "bitcoinGold": {
+        "symbol": "BTG",
+        "name": "Bitcoin Gold",
+        "derivationPaths": {
+            "default": "m/44'/156'/0'/0/0"
+        }
+    },
+    "bitcoinSv": {
+        "symbol": "BSV",
+        "name": "Bitcoin SV",
+        "derivationPaths": {
+            "default": "m/44'/236'/0'/0/0"
+        }
+    },
+    "dash": {
+        "symbol": "DASH",
+        "name": "Dash",
+        "derivationPaths": {
+            "default": "m/44'/5'/0'/0/0"
+        }
+    },
+    "dogecoin": {
+        "symbol": "DOGE",
+        "name": "Dogecoin",
+        "derivationPaths": {
+            "default": "m/44'/3'/0'/0/0"
+        }
+    },
     "ethereum": {
         "symbol": "ETH",
         "name": "Ethereum",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
+    "ethereumClassic": {
+        "symbol": "ETC",
+        "name": "Ethereum Classic",
+        "derivationPaths": {
+            "default": "m/44'/61'/0'/0/0"
+        }
+    },
+    "fantom": {
+        "symbol": "FTM",
+        "name": "Fantom",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
+    "litecoin": {
+        "symbol": "LTC",
+        "name": "Litecoin",
+        "derivationPaths": {
+            "default": "m/44'/2'/0'/0/0"
+        }
+    },
+    "polygon": {
+        "symbol": "MATIC",
+        "name": "Polygon",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
+    "smartChain": {
+        "symbol": "BNB",
+        "name": "Binance Smart Chain",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         }
@@ -22,5 +99,12 @@
             "Trust Wallet": "m/44'/501'/0'"
         },
         "hardenedDerivationOnly": true
+    },
+    "veChain": {
+        "symbol": "VET",
+        "name": "VeChain",
+        "derivationPaths": {
+            "default": "m/44'/818'/0'/0/0"
+        }
     }
 }
