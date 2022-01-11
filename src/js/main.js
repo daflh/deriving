@@ -1,7 +1,8 @@
 import Alpine from 'alpinejs';
 import * as bip39 from 'bip39';
-import coinList from '../coin-list.json';
-import { keyGen, findDPathError } from './utils';
+import networkList from '../network-list.json';
+import keyGen from './key-generator';
+import { findDPathError } from './utils';
 
 const mainData = {
     mnemonicValue: '',
@@ -14,22 +15,22 @@ const mainData = {
     get seedValue() {
         return this.isMnemonicValid() ? bip39.mnemonicToSeedSync(this.mnemonicValue).toString('hex') : '';
     },
-    coinSelected: 'bitcoin',
+    networkSelected: 'bitcoin',
     dPathSelected: 'default',
     dPathValue: '',
     isDPathValid() {
-        return !findDPathError(this.dPathValue, !!coinList[this.coinSelected].hardenedDerivationOnly);
+        return !findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
     },
     dPathEvaluate() {
-        this.dPathValue = coinList[this.coinSelected].derivationPaths[this.dPathSelected];
+        this.dPathValue = networkList[this.networkSelected].derivationPaths[this.dPathSelected];
     },
     get resultKeyPair() {
-        if (this.isMnemonicValid() && this.coinSelected && this.isDPathValid()) {
+        if (this.isMnemonicValid() && this.networkSelected && this.isDPathValid()) {
             const {
                 address, 
                 publicKey, 
                 privateKey
-             } = keyGen[this.coinSelected](this.seedValue, this.dPathValue);
+             } = keyGen[this.networkSelected](this.seedValue, this.dPathValue);
 
             return { address, publicKey, privateKey };
         } else {
@@ -52,7 +53,7 @@ mainData.init = function () {
         }
     });
 
-    this.$watch('coinSelected', () => {
+    this.$watch('networkSelected', () => {
         this.dPathSelected = 'default';
         this.dPathEvaluate();
     });
@@ -64,7 +65,7 @@ mainData.init = function () {
 
     this.$watch('dPathValue', () => {
         if (!this.isDPathValid()) {
-            const error = findDPathError(this.dPathValue, !!coinList[this.coinSelected].hardenedDerivationOnly);
+            const error = findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
 
             this.isError = true;
             this.errorText = 'Derivation path error: ' + error;
@@ -78,7 +79,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('main', () => mainData);
 });
 
-Alpine.store('coinList', coinList);
+Alpine.store('networkList', networkList);
 Alpine.start();
 
 window.Alpine = Alpine;

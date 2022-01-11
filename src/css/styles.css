@@ -89,7 +89,7 @@ main {
     margin-bottom: .75rem;
     font-weight: 500;
 }
-#input-group #coin {
+#input-group #network {
     width: 16rem;
 }
 #input-group #derivpath {

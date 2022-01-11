@@ -21,7 +21,7 @@ for (const network in bitcoinNetworks) {
 import { hdkey } from 'ethereumjs-wallet';
 
 const ethereumBasedNetworks = [
-    'avalancheC', 'fantom', 'smartChain', 'ethereum', 'ethereumClassic', 'polygon', 'veChain'
+    'avalancheC', 'fantom', 'binanceSmartChain', 'ethereum', 'ethereumClassic', 'polygon', 'veChain'
 ];
 
 ethereumBasedNetworks.forEach((network) => {

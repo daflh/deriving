@@ -1,5 +1,3 @@
-export { default as keyGen } from './keygen-util';
-
 export function findDPathError(path, hardenedDerivationOnly = false) {
     const maxDepth = 255;
     const maxIndexValue = Math.pow(2, 31);

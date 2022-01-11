@@ -1,99 +1,99 @@
 {
     "avalancheC": {
-        "symbol": "AVAX",
         "name": "Avalanche C-Chain",
+        "coinSymbol": "AVAX",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        }
+    },
+    "binanceSmartChain": {
+        "name": "Binance Smart Chain",
+        "coinSymbol": "BNB",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         }
     },
     "bitcoin": {
-        "symbol": "BTC",
         "name": "Bitcoin",
+        "coinSymbol": "BTC",
         "derivationPaths": {
             "default": "m/44'/0'/0'/0/0",
             "Bitcoin Core": "m/0'/0'/0'"
         }
     },
     "bitcoinCash": {
-        "symbol": "BCH",
         "name": "Bitcoin Cash",
+        "coinSymbol": "BCH",
         "derivationPaths": {
             "default": "m/44'/145'/0'/0/0"
         }
     },
     "bitcoinGold": {
-        "symbol": "BTG",
         "name": "Bitcoin Gold",
+        "coinSymbol": "BTG",
         "derivationPaths": {
             "default": "m/44'/156'/0'/0/0"
         }
     },
     "bitcoinSv": {
-        "symbol": "BSV",
         "name": "Bitcoin SV",
+        "coinSymbol": "BSV",
         "derivationPaths": {
             "default": "m/44'/236'/0'/0/0"
         }
     },
     "dash": {
-        "symbol": "DASH",
         "name": "Dash",
+        "coinSymbol": "DASH",
         "derivationPaths": {
             "default": "m/44'/5'/0'/0/0"
         }
     },
     "dogecoin": {
-        "symbol": "DOGE",
         "name": "Dogecoin",
+        "coinSymbol": "DOGE",
         "derivationPaths": {
             "default": "m/44'/3'/0'/0/0"
         }
     },
     "ethereum": {
-        "symbol": "ETH",
         "name": "Ethereum",
+        "coinSymbol": "ETH",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         }
     },
     "ethereumClassic": {
-        "symbol": "ETC",
         "name": "Ethereum Classic",
+        "coinSymbol": "ETC",
         "derivationPaths": {
             "default": "m/44'/61'/0'/0/0"
         }
     },
     "fantom": {
-        "symbol": "FTM",
         "name": "Fantom",
+        "coinSymbol": "FTM",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         }
     },
     "litecoin": {
-        "symbol": "LTC",
         "name": "Litecoin",
+        "coinSymbol": "LTC",
         "derivationPaths": {
             "default": "m/44'/2'/0'/0/0"
         }
     },
     "polygon": {
-        "symbol": "MATIC",
         "name": "Polygon",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        }
-    },
-    "smartChain": {
-        "symbol": "BNB",
-        "name": "Binance Smart Chain",
+        "coinSymbol": "MATIC",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         }
     },
     "solana": {
-        "symbol": "SOL",
         "name": "Solana",
+        "coinSymbol": "SOL",
         "derivationPaths": {
             "default": "m/44'/501'/0'/0'",
             "Trust Wallet": "m/44'/501'/0'"
@@ -101,8 +101,8 @@
         "hardenedDerivationOnly": true
     },
     "veChain": {
-        "symbol": "VET",
         "name": "VeChain",
+        "coinSymbol": "VET",
         "derivationPaths": {
             "default": "m/44'/818'/0'/0/0"
         }

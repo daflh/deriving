@@ -28,17 +28,17 @@
                 <textarea id="seed" x-model="seedValue" disabled>
             </div>
             <div>
-                <label for="coin">Coin / Network</label>
-                <select id="coin" x-model="coinSelected">
-                    <template x-for="[key, coin] in Object.entries($store.coinList)">
-                        <option :value="key" x-text="`${coin.symbol} - ${coin.name}`" :selected="coinSelected == key"></option>
+                <label for="network">Coin / Network</label>
+                <select id="network" x-model="networkSelected">
+                    <template x-for="[key, network] in Object.entries($store.networkList).sort((a, b) => (a[1].coinSymbol > b[1].coinSymbol) ? 1 : ((b[1].coinSymbol > a[1].coinSymbol) ? -1 : 0))">
+                        <option :value="key" x-text="`${network.coinSymbol} - ${network.name}`" :selected="networkSelected == key"></option>
                     </template>
                 </select>
             </div>
             <div>
                 <label for="derivpath">Derivation Path</label>
                 <select id="derivpath" x-model="dPathSelected">
-                    <template x-for="[name, val] in Object.entries($store.coinList[coinSelected].derivationPaths)">
+                    <template x-for="[name, val] in Object.entries($store.networkList[networkSelected].derivationPaths)">
                         <option :value="name" x-text="`${name != 'default' ? name : 'Default'} - ${val}`" :selected="name == 'default'"></option>
                     </template>
                     <option value="custom">Custom</option>
