@@ -4,14 +4,16 @@
         "coinSymbol": "AVAX",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "binanceSmartChain": {
         "name": "Binance Smart Chain",
         "coinSymbol": "BNB",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "bitcoin": {
         "name": "Bitcoin",
@@ -61,21 +63,24 @@
         "coinSymbol": "ETH",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "ethereumClassic": {
         "name": "Ethereum Classic",
         "coinSymbol": "ETC",
         "derivationPaths": {
             "default": "m/44'/61'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "fantom": {
         "name": "Fantom",
         "coinSymbol": "FTM",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "litecoin": {
         "name": "Litecoin",
@@ -89,7 +94,8 @@
         "coinSymbol": "MATIC",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     },
     "solana": {
         "name": "Solana",
@@ -105,6 +111,7 @@
         "coinSymbol": "VET",
         "derivationPaths": {
             "default": "m/44'/818'/0'/0/0"
-        }
+        },
+        "isEvmCompatible": true
     }
 }
