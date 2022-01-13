@@ -1,3 +1,7 @@
+import basex from 'base-x';
+
+export const base58 = basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+
 export function findDPathError(path, hardenedDerivationOnly = false) {
     const maxDepth = 255;
     const maxIndexValue = Math.pow(2, 31);

@@ -106,6 +106,14 @@
         },
         "hardenedDerivationOnly": true
     },
+    "stellar": {
+        "name": "Stellar",
+        "coinSymbol": "XLM",
+        "derivationPaths": {
+            "default": "m/44'/148'/0'"
+        },
+        "hardenedDerivationOnly": true
+    },
     "veChain": {
         "name": "VeChain",
         "coinSymbol": "VET",
