@@ -7,28 +7,32 @@ import { hdkey as EthereumHDKey } from 'ethereumjs-wallet';
 import nacl from 'tweetnacl';
 import networkList from '../network-list.json';
 import { base58 } from './utils';
-import bitcoinNetworks from './bitcoinjs-networks';
 
 const keyGen = {};
 
 for (const netId in networkList) {
-    if (netId in bitcoinNetworks) {
+    if (netId === 'bitcoin' || networkList[netId].isUsingBitcoinKeyScheme) {
+        const network = Object.assign({}, bitcoinLib.networks.bitcoin);
+        if (networkList[netId].hasOwnProperty('p2pkhPrefix'))
+            network.pubKeyHash = networkList[netId].p2pkhPrefix;
+        if (networkList[netId].hasOwnProperty('p2shPrefix'))
+            network.scriptHash = networkList[netId].p2shPrefix;
+        if (networkList[netId].hasOwnProperty('wifPrefix'))
+            network.wif = networkList[netId].wifPrefix;
+
         keyGen[netId] = (seed, path) => {
             const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = bip32.fromSeed(seedBuffer, bitcoinNetworks[netId]);
+            const masterWallet = bip32.fromSeed(seedBuffer, network);
             const wallet = masterWallet.derivePath(path);
             const rawPublicKey = wallet.publicKey;
             const publicKey = rawPublicKey.toString('hex');
             const privateKey = wallet.toWIF();
-            const { address } = bitcoinLib.payments.p2pkh({
-                pubkey: rawPublicKey,
-                network: bitcoinNetworks[netId]
-            });
+            const { address } = bitcoinLib.payments.p2pkh({ pubkey: rawPublicKey, network });
         
             return { address, publicKey, privateKey };
         };
 
-    } else if (networkList[netId].isEvmCompatible) {
+    } else if (netId === 'ethereum' || networkList[netId].isEvmCompatible) {
         keyGen[netId] = (seed, path) => {
             const seedBuffer = Buffer.from(seed, 'hex');
             const masterWallet = EthereumHDKey.fromMasterSeed(seedBuffer);
@@ -51,22 +55,22 @@ for (const netId in networkList) {
         };
 
     } else if (netId === 'stellar') {
-        keyGen[netId] = (seed, path) => {
-            function encodeCheck(versionByteName, data) {    
-                const versionBytes = {
-                    ed25519PublicKey: 6 << 3, // G
-                    ed25519SecretSeed: 18 << 3, // S
-                };          
-                const versionByte = versionBytes[versionByteName];
-                const versionBuffer = Buffer.from([versionByte]);
-                const payload = Buffer.concat([versionBuffer, Buffer.from(data)]);
-                const checksum = Buffer.alloc(2);
-                checksum.writeUInt16LE(crc.crc16xmodem(payload), 0);
-                const unencoded = Buffer.concat([payload, checksum]);
-              
-                return base32.encode(unencoded);
-            }
+        function encodeCheck(versionByteName, data) {    
+            const versionBytes = {
+                ed25519PublicKey: 6 << 3, // G
+                ed25519SecretSeed: 18 << 3, // S
+            };
+            const versionByte = versionBytes[versionByteName];
+            const versionBuffer = Buffer.from([versionByte]);
+            const payload = Buffer.concat([versionBuffer, Buffer.from(data)]);
+            const checksum = Buffer.alloc(2);
+            checksum.writeUInt16LE(crc.crc16xmodem(payload), 0);
+            const unencoded = Buffer.concat([payload, checksum]);
+          
+            return base32.encode(unencoded);
+        }
 
+        keyGen[netId] = (seed, path) => {
             const derivedSeed = edHd.derivePath(path, seed).key;
             const rawPublicKey = nacl.sign.keyPair.fromSeed(derivedSeed).publicKey;
             const publicKey = encodeCheck('ed25519PublicKey', rawPublicKey);

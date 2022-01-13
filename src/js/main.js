@@ -19,7 +19,7 @@ const mainData = {
     dPathSelected: 'default',
     dPathValue: '',
     isDPathValid() {
-        return !findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
+        return !findDPathError(this.dPathValue, networkList[this.networkSelected].curve === 'ed25519');
     },
     calculateDPath() {
         this.dPathValue = networkList[this.networkSelected].derivationPaths[this.dPathSelected];
@@ -79,7 +79,7 @@ mainData.init = function () {
         this.calculateKeyPair();
 
         if (!this.isDPathValid()) {
-            const error = findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
+            const error = findDPathError(this.dPathValue, networkList[this.networkSelected].curve === 'ed25519');
 
             this.isError = true;
             this.errorText = 'Derivation path error: ' + error;

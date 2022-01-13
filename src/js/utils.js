@@ -2,7 +2,7 @@ import basex from 'base-x';
 
 export const base58 = basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
 
-export function findDPathError(path, hardenedDerivationOnly = false) {
+export function findDPathError(path, isUsingEd25519 = false) {
     const maxDepth = 255;
     const maxIndexValue = Math.pow(2, 31);
 
@@ -39,7 +39,7 @@ export function findDPathError(path, hardenedDerivationOnly = false) {
         }
     }
 
-    if (hardenedDerivationOnly) {
+    if (isUsingEd25519) {
         const indexes = path.split('/');
 
         if (indexes.find((v, i) => i > 0 && !v.endsWith('\''))) {
