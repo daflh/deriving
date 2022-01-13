@@ -21,20 +21,29 @@ const mainData = {
     isDPathValid() {
         return !findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
     },
-    dPathEvaluate() {
+    calculateDPath() {
         this.dPathValue = networkList[this.networkSelected].derivationPaths[this.dPathSelected];
     },
-    get resultKeyPair() {
-        if (this.isMnemonicValid() && this.networkSelected && this.isDPathValid()) {
+    keyPair: {
+        address: '',
+        publicKey: '',
+        privateKey: ''
+    },
+    calculateKeyPair() {
+        if (this.isMnemonicValid() && this.isDPathValid()) {
             const {
-                address, 
-                publicKey, 
+                address,
+                publicKey,
                 privateKey
-             } = keyGen[this.networkSelected](this.seedValue, this.dPathValue);
+            } = keyGen[this.networkSelected](this.seedValue, this.dPathValue);
 
-            return { address, publicKey, privateKey };
+            this.keyPair = { address, publicKey, privateKey };
         } else {
-            return { address: '', publicKey: '', privateKey: '' };
+            this.keyPair = {
+                address: '',
+                publicKey: '',
+                privateKey: ''
+            };
         }
     },
     isError: false,
@@ -42,9 +51,9 @@ const mainData = {
 };
 
 mainData.init = function () {
-    this.dPathEvaluate();
-
     this.$watch('mnemonicValue', () => {
+        this.calculateKeyPair();
+
         if (this.mnemonicValue !== '' && !this.isMnemonicValid()) {
             this.isError = true;
             this.errorText = 'Invalid mnemonic phrase';
@@ -54,16 +63,21 @@ mainData.init = function () {
     });
 
     this.$watch('networkSelected', () => {
-        this.dPathSelected = 'default';
-        this.dPathEvaluate();
+        if (this.dPathSelected === 'default') {
+            this.calculateDPath();
+        } else {
+            this.dPathSelected = 'default';
+        }
     });
 
     this.$watch('dPathSelected', () => {
         if (this.dPathSelected !== 'custom')
-            this.dPathEvaluate();
+            this.calculateDPath();
     });
 
     this.$watch('dPathValue', () => {
+        this.calculateKeyPair();
+
         if (!this.isDPathValid()) {
             const error = findDPathError(this.dPathValue, !!networkList[this.networkSelected].hardenedDerivationOnly);
 
@@ -73,6 +87,8 @@ mainData.init = function () {
             this.isError = false;
         }
     });
+
+    this.calculateDPath();
 };
 
 document.addEventListener('alpine:init', () => {

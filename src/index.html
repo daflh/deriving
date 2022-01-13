@@ -49,15 +49,15 @@
         <div id="result">
             <div>
                 <div>Address</div>
-                <div id="address" x-text="resultKeyPair.address || '~'"></div>
+                <div id="address" x-text="keyPair.address || '~'"></div>
             </div>
             <div>
                 <div>Public Key</div>
-                <div id="pubkey" x-text="resultKeyPair.publicKey || '~'"></div>
+                <div id="pubkey" x-text="keyPair.publicKey || '~'"></div>
             </div>
             <div>
                 <div>Private Key</div>
-                <div id="prvkey" x-text="resultKeyPair.privateKey || '~'"></div>
+                <div id="prvkey" x-text="keyPair.privateKey || '~'"></div>
             </div>
         </div>
         <template x-teleport="body">
