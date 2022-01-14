@@ -3,45 +3,94 @@ import crc from 'crc';
 import * as bip32 from 'bip32';
 import * as edHd from 'ed25519-hd-key';
 import * as bitcoinLib from 'bitcoinjs-lib';
-import { hdkey as EthereumHDKey } from 'ethereumjs-wallet';
+import * as ethereumUtil from 'ethereumjs-util';
 import nacl from 'tweetnacl';
 import networkList from '../network-list.json';
-import { base58 } from './utils';
+import {
+	base58,
+	rippleUtils,
+	cosmosUtils,
+	eosUtils
+} from './utils';
 
 const keyGen = {};
 
 for (const netId in networkList) {
-    if (netId === 'bitcoin' || networkList[netId].isUsingBitcoinKeyScheme) {
-        const network = Object.assign({}, bitcoinLib.networks.bitcoin);
-        if (networkList[netId].hasOwnProperty('p2pkhPrefix'))
-            network.pubKeyHash = networkList[netId].p2pkhPrefix;
-        if (networkList[netId].hasOwnProperty('p2shPrefix'))
-            network.scriptHash = networkList[netId].p2shPrefix;
-        if (networkList[netId].hasOwnProperty('wifPrefix'))
-            network.wif = networkList[netId].wifPrefix;
+	const network = networkList[netId];
+
+    if (netId === 'bitcoin' || network.useBitcoinKeyScheme) {
+        const prefixes = Object.assign({}, bitcoinLib.networks.bitcoin);
+        if (network.hasOwnProperty('p2pkhPrefix'))
+            prefixes.pubKeyHash = network.p2pkhPrefix;
+        if (network.hasOwnProperty('p2shPrefix'))
+            prefixes.scriptHash = network.p2shPrefix;
+        if (network.hasOwnProperty('wifPrefix'))
+            prefixes.wif = network.wifPrefix;
 
         keyGen[netId] = (seed, path) => {
             const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = bip32.fromSeed(seedBuffer, network);
+            const masterWallet = bip32.fromSeed(seedBuffer, prefixes);
             const wallet = masterWallet.derivePath(path);
             const rawPublicKey = wallet.publicKey;
-            const publicKey = rawPublicKey.toString('hex');
-            const privateKey = wallet.toWIF();
-            const { address } = bitcoinLib.payments.p2pkh({ pubkey: rawPublicKey, network });
+            let publicKey = rawPublicKey.toString('hex');
+            let privateKey = wallet.toWIF();
+            let { address } = bitcoinLib.payments.p2pkh({ pubkey: rawPublicKey, network: prefixes });
+
+            if (netId === 'ripple') {
+                address = rippleUtils.convertAddress(address);
+                privateKey = rippleUtils.convertPrivateKey(privateKey);
+            } else if (netId === 'cosmos') {
+                address = cosmosUtils.bufferToAddress(rawPublicKey, 'cosmos');
+                publicKey = cosmosUtils.bufferToPublicKey(rawPublicKey, 'cosmos');
+                privateKey = wallet.privateKey.toString('base64');
+            } else if (netId === 'thorChain') {
+				address = cosmosUtils.bufferToAddress(rawPublicKey, 'thor');
+				publicKey = rawPublicKey.toString("hex");
+				privateKey = wallet.privateKey.toString("hex");
+			} else if (netId === 'terra') {
+				address = cosmosUtils.bufferToAddress(rawPublicKey, 'terra');
+				publicKey = rawPublicKey.toString("hex");
+				privateKey = wallet.privateKey.toString("hex");
+			} else if (netId === 'eos') {
+				address = '';
+				publicKey = eosUtils.bufferToPublicKey(rawPublicKey);
+				privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
+			}
         
             return { address, publicKey, privateKey };
         };
 
-    } else if (netId === 'ethereum' || networkList[netId].isEvmCompatible) {
+    } else if (netId === 'ethereum' || network.isEvmCompatible) {
         keyGen[netId] = (seed, path) => {
             const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = EthereumHDKey.fromMasterSeed(seedBuffer);
-            const wallet = masterWallet.derivePath(path).getWallet();
-            const address = wallet.getAddressString();
-            const publicKey = wallet.getPublicKeyString();
-            const privateKey = wallet.getPrivateKeyString();
+            const masterWallet = bip32.fromSeed(seedBuffer);
+            const wallet = masterWallet.derivePath(path);
+			const ethPublicKey = ethereumUtil.importPublic(wallet.publicKey);
+			const addressBuffer = ethereumUtil.publicToAddress(ethPublicKey);
+			const hexAddress = addressBuffer.toString('hex');
+			const checksumAddress = ethereumUtil.toChecksumAddress(hexAddress);
         
-            return { address, publicKey, privateKey };
+            return {
+				address: ethereumUtil.addHexPrefix(checksumAddress),
+				publicKey: ethereumUtil.addHexPrefix(wallet.publicKey.toString('hex')),
+				privateKey: ethereumUtil.bufferToHex(wallet.privateKey)
+			};
+        };
+
+	} else if (netId === 'tron') {
+        keyGen[netId] = (seed, path) => {
+            const seedBuffer = Buffer.from(seed, 'hex');
+            const masterWallet = bip32.fromSeed(seedBuffer);
+            const wallet = masterWallet.derivePath(path);
+			const ethPublicKey = ethereumUtil.importPublic(wallet.publicKey);
+			const addressBuffer = ethereumUtil.publicToAddress(ethPublicKey);
+			const address = bitcoinLib.address.toBase58Check(addressBuffer, 0x41);
+        
+            return {
+				address,
+				publicKey: wallet.publicKey.toString('hex'),
+				privateKey: wallet.privateKey.toString('hex')
+			};
         };
 
     } else if (netId === 'solana') {

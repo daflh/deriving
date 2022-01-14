@@ -1,6 +1,55 @@
 import basex from 'base-x';
+import { bech32 } from 'bech32';
+import createHash from 'create-hash';
 
 export const base58 = basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+
+export const rippleUtils = {
+    convertPrivateKey(prvKey) {
+        return basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz')
+               .decode(prvKey).toString('hex').slice(2,66);
+    },
+    convertAddress(address) {
+        return basex('rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz').encode(
+           basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz').decode(address)
+        );
+    }
+};
+
+export const cosmosUtils = {
+    bufferToPublicKey(pubBuf, hrp = 'cosmos') {
+        const AminoSecp256k1PubkeyPrefix = Buffer.from('EB5AE987', 'hex');
+        const AminoSecp256k1PubkeyLength = Buffer.from('21', 'hex');
+        pubBuf = Buffer.concat([AminoSecp256k1PubkeyPrefix, AminoSecp256k1PubkeyLength, pubBuf]);
+
+        return bech32.encode(`${hrp}pub`, bech32.toWords(pubBuf));
+    },
+    bufferToAddress(pubBuf, hrp = 'cosmos') {
+        const sha256_ed = createHash('sha256').update(pubBuf).digest();
+        const ripemd160_ed = createHash('rmd160').update(sha256_ed).digest();
+
+        return bech32.encode(hrp, bech32.toWords(ripemd160_ed));
+    }
+};
+
+export const eosUtils = {
+    bufferToPublicKey(pubBuf) {
+        const EOS_PUBLIC_PREFIX = 'EOS';
+        const checksum = createHash('rmd160').update(pubBuf).digest('hex').slice(0, 8);
+        pubBuf = Buffer.concat([pubBuf, Buffer.from(checksum, 'hex')]);
+
+        return EOS_PUBLIC_PREFIX + base58.encode(pubBuf);
+    },
+    bufferToPrivateKey(privBuf) {
+        const EOS_PRIVATE_PREFIX = '80';
+        privBuf = Buffer.concat([Buffer.from(EOS_PRIVATE_PREFIX, 'hex'), privBuf]);
+        let checksum = createHash('sha256').update(privBuf).digest();
+        checksum = createHash('sha256').update(checksum).digest('hex').slice(0, 8);
+        privBuf = Buffer.concat([privBuf, Buffer.from(checksum, 'hex')]);
+
+        return base58.encode(privBuf);
+    }
+};
 
 export function findDPathError(path, isUsingEd25519 = false) {
     const maxDepth = 255;
