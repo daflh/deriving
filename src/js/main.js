@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs';
 import * as bip39 from 'bip39';
+import { toBitpayAddress, toCashAddress } from 'bchaddrjs';
 import networkList from '../network-list.json';
 import keyGen from './key-generator';
 import { findDPathError } from './utils';
@@ -89,6 +90,15 @@ mainData.init = function () {
     });
 
     this.calculateDPath();
+};
+
+mainData.bchUtils = {
+    toBitpayAddress(addr) {
+        return mainData.networkSelected === 'bitcoinCash' && addr  !== '' ? toBitpayAddress(addr) : '';
+    },
+    toCashAddress(addr) {
+        return mainData.networkSelected === 'bitcoinCash' && addr !== '' ? toCashAddress(addr) : '';
+    }
 };
 
 document.addEventListener('alpine:init', () => {

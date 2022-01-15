@@ -49,7 +49,12 @@
         <div id="result">
             <div>
                 <div>Address</div>
-                <div id="address" x-text="keyPair.address || '~'"></div>
+                <div id="address" x-text="keyPair.address || '~'" x-show="networkSelected !== 'bitcoinCash'"></div>
+                <div id="address" x-show="networkSelected === 'bitcoinCash'">
+                    <span x-text="keyPair.address || '~'"></span><span class="bch-address-type">(Legacy)</span><br>
+                    <span x-text="bchUtils.toBitpayAddress(keyPair.address) || '~'"></span><span class="bch-address-type">(BitPay)</span><br>
+                    <span x-text="bchUtils.toCashAddress(keyPair.address) || '~'"></span><span class="bch-address-type">(CashAddr)</span>
+                </div>
             </div>
             <div>
                 <div>Public Key</div>

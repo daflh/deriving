@@ -107,6 +107,7 @@ main {
     border-radius: .25rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
     word-wrap: break-word;
+    line-height: 1.4;
 }
 #result > div:not(:last-of-type) {
     margin-bottom: 1.25rem;
@@ -114,6 +115,10 @@ main {
 #result > div > div:first-of-type {
     margin-bottom: .5rem;
     font-weight: 500;
+}
+#result .bch-address-type {
+    margin-left: .5rem;
+    color: #bebebe;
 }
 #error-box {
     position: fixed;
