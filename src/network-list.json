@@ -8,6 +8,15 @@
         "curve": "secp256k1",
         "isEvmCompatible": true
     },
+    "binanceChain": {
+        "name": "Binance Chain",
+        "coinSymbol": "BNB",
+        "derivationPaths": {
+            "default": "m/44'/714'/0'/0/0"
+        },
+        "curve": "secp256k1",
+        "useBitcoinKeyScheme": true
+    },
     "binanceSmartChain": {
         "name": "Binance Smart Chain",
         "coinSymbol": "BNB",
@@ -56,10 +65,28 @@
         "useBitcoinKeyScheme": true
     },
     "cosmos": {
-        "name": "Cosmos",
+        "name": "Cosmos Hub",
         "coinSymbol": "ATOM",
         "derivationPaths": {
             "default": "m/44'/118'/0'/0/0"
+        },
+        "curve": "secp256k1",
+        "useBitcoinKeyScheme": true
+    },
+    "cronos": {
+        "name": "Cronos",
+        "coinSymbol": "CRO",
+        "derivationPaths": {
+            "default": "m/44'/60'/0'/0/0"
+        },
+        "curve": "secp256k1",
+        "isEvmCompatible": true
+    },
+    "cryptoOrgChain": {
+        "name": "Crypto.org Chain",
+        "coinSymbol": "CRO",
+        "derivationPaths": {
+            "default": "m/44'/394'/0'/0/0"
         },
         "curve": "secp256k1",
         "useBitcoinKeyScheme": true
@@ -87,6 +114,14 @@
         "p2pkhPrefix": 30,
         "p2shPrefix": 22,
         "wifPrefix": 158
+    },
+    "elrond": {
+        "name": "Elrond",
+        "coinSymbol": "EGLD",
+        "derivationPaths": {
+            "default": "m/44'/508'/0'/0'/0'"
+        },
+        "curve": "ed25519"
     },
     "eos": {
         "name": "EOS",

@@ -1,4 +1,5 @@
 import base32 from 'base32.js';
+import { bech32 } from 'bech32';
 import crc from 'crc';
 import * as bip32 from 'bip32';
 import * as edHd from 'ed25519-hd-key';
@@ -39,22 +40,36 @@ for (const netId in networkList) {
             if (netId === 'ripple') {
                 address = rippleUtils.convertAddress(address);
                 privateKey = rippleUtils.convertPrivateKey(privateKey);
+                
+            } else if (netId === 'eos') {
+                address = '';
+                publicKey = eosUtils.bufferToPublicKey(rawPublicKey);
+                privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
+
             } else if (netId === 'cosmos') {
                 address = cosmosUtils.bufferToAddress(rawPublicKey, 'cosmos');
                 publicKey = cosmosUtils.bufferToPublicKey(rawPublicKey, 'cosmos');
                 privateKey = wallet.privateKey.toString('base64');
+
             } else if (netId === 'thorChain') {
 				address = cosmosUtils.bufferToAddress(rawPublicKey, 'thor');
 				publicKey = rawPublicKey.toString("hex");
 				privateKey = wallet.privateKey.toString("hex");
+
 			} else if (netId === 'terra') {
 				address = cosmosUtils.bufferToAddress(rawPublicKey, 'terra');
 				publicKey = rawPublicKey.toString("hex");
 				privateKey = wallet.privateKey.toString("hex");
-			} else if (netId === 'eos') {
-				address = '';
-				publicKey = eosUtils.bufferToPublicKey(rawPublicKey);
-				privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
+
+            } else if (netId === 'binanceChain') {
+				address = cosmosUtils.bufferToAddress(rawPublicKey, 'bnb');
+				publicKey = cosmosUtils.bufferToPublicKey(rawPublicKey, 'bnb');
+				privateKey = wallet.privateKey.toString("hex");
+                
+            } else if (netId === 'cryptoOrgChain') {
+				address = cosmosUtils.bufferToAddress(rawPublicKey, 'cro');
+				publicKey = rawPublicKey.toString("hex");
+				privateKey = wallet.privateKey.toString("hex");
 			}
         
             return { address, publicKey, privateKey };
@@ -91,6 +106,19 @@ for (const netId in networkList) {
 				publicKey: wallet.publicKey.toString('hex'),
 				privateKey: wallet.privateKey.toString('hex')
 			};
+        };
+
+    } else if (netId === 'elrond') {
+        keyGen[netId] = (seed, path) => {
+            const prvKeyBuffer = edHd.derivePath(path, seed).key;
+            const pubKeyBuffer = edHd.getPublicKey(prvKeyBuffer, false);
+            const address = bech32.encode('erd', bech32.toWords(pubKeyBuffer));
+        
+            return {
+                address,
+                publicKey: pubKeyBuffer.toString('hex'),
+                privateKey: prvKeyBuffer.toString('hex')
+            };
         };
 
     } else if (netId === 'solana') {
