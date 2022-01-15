@@ -66,7 +66,10 @@ mainData.init = function () {
     this.$watch('networkSelected', () => {
         if (this.dPathSelected === 'default') {
             this.calculateDPath();
+        } else if (this.dPathSelected === 'custom') {
+            this.calculateKeyPair();
         } else {
+            // no need to call 'calculateDPath()' here, 'dPathSelected' watcher will call it anyway
             this.dPathSelected = 'default';
         }
     });
@@ -89,6 +92,7 @@ mainData.init = function () {
         }
     });
 
+    // this will trigger 'dPathValue' to change which then it will call 'calculateKeyPair()' right away
     this.calculateDPath();
 };
 
