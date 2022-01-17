@@ -138,3 +138,31 @@ main {
         margin: 0 2rem;
     }
 }
+
+@media (max-width: 640px) {
+    #input-group textarea {
+        height: 6rem;
+    }
+    #input-group textarea#mnemonic {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        outline: none;
+    }
+    #input-group > div:not(:last-of-type) {
+        margin-bottom: 2rem;
+    }
+    #input-group > div:first-of-type > div {
+        flex-direction: column;
+    }
+    #input-group > div:first-of-type > div > button {
+        margin-left: 0;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+    }
+    #result {
+        margin-left: -2rem;
+        margin-right: -2rem;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

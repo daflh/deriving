@@ -39,12 +39,24 @@ const mainData = {
             } = keyGen(this.networkSelected, this.seedValue, this.dPathValue);
 
             this.keyPair = { address, publicKey, privateKey };
+            this.isError = false;
         } else {
             this.keyPair = {
                 address: '',
                 publicKey: '',
                 privateKey: ''
             };
+
+            if (this.mnemonicValue !== '' && !this.isMnemonicValid()) {
+                this.errorText = 'Invalid mnemonic phrase';
+                this.isError = true;
+            } else if (!this.isDPathValid()) {
+                let errorText = 'Derivation path error: ';
+                errorText += findDPathError(this.dPathValue, networkList[this.networkSelected].curve === 'ed25519');
+
+                this.errorText = errorText;
+                this.isError = true;
+            }
         }
     },
     isError: false,
@@ -54,13 +66,6 @@ const mainData = {
 mainData.init = function () {
     this.$watch('mnemonicValue', () => {
         this.calculateKeyPair();
-
-        if (this.mnemonicValue !== '' && !this.isMnemonicValid()) {
-            this.isError = true;
-            this.errorText = 'Invalid mnemonic phrase';
-        } else {
-            this.isError = false;
-        }
     });
 
     this.$watch('networkSelected', () => {
@@ -81,15 +86,6 @@ mainData.init = function () {
 
     this.$watch('dPathValue', () => {
         this.calculateKeyPair();
-
-        if (!this.isDPathValid()) {
-            const error = findDPathError(this.dPathValue, networkList[this.networkSelected].curve === 'ed25519');
-
-            this.isError = true;
-            this.errorText = 'Derivation path error: ' + error;
-        } else {
-            this.isError = false;
-        }
     });
 
     // this will trigger 'dPathValue' to change which then it will call 'calculateKeyPair()' right away
