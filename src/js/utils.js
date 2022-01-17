@@ -1,8 +1,28 @@
 import basex from 'base-x';
+import base32 from 'base32.js';
 import { bech32 } from 'bech32';
 import createHash from 'create-hash';
+import { keccak_256 } from 'js-sha3';
+import crc from 'crc';
 
 export const base58 = basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
+
+export const ethereumUtils = {
+    toChecksumAddress(address) {
+        const checksumHash = keccak_256(address).toString('hex');
+        let checksumAddress = '0x';
+
+        for (let i = 0; i < address.length; i++) {
+            if (parseInt(checksumHash[i], 16) >= 8) {
+                checksumAddress += address[i].toUpperCase();
+            } else {
+                checksumAddress += address[i];
+            }
+        }
+
+        return checksumAddress;
+    }
+};
 
 export const rippleUtils = {
     convertPrivateKey(prvKey) {
@@ -15,6 +35,23 @@ export const rippleUtils = {
         );
     }
 };
+
+export const stellarUtils = {
+    encodeCheck(versionByteName, data) {
+        const versionBytes = {
+            ed25519PublicKey: 6 << 3, // G
+            ed25519SecretSeed: 18 << 3, // S
+        };
+        const versionByte = versionBytes[versionByteName];
+        const versionBuffer = Buffer.from([versionByte]);
+        const payload = Buffer.concat([versionBuffer, Buffer.from(data)]);
+        const checksum = Buffer.alloc(2);
+        checksum.writeUInt16LE(crc.crc16xmodem(payload), 0);
+        const unencoded = Buffer.concat([payload, checksum]);
+      
+        return base32.encode(unencoded);
+    }
+}
 
 export const cosmosUtils = {
     bufferToPublicKey(pubBuf, hrp = 'cosmos') {

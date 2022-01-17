@@ -36,7 +36,7 @@ const mainData = {
                 address,
                 publicKey,
                 privateKey
-            } = keyGen[this.networkSelected](this.seedValue, this.dPathValue);
+            } = keyGen(this.networkSelected, this.seedValue, this.dPathValue);
 
             this.keyPair = { address, publicKey, privateKey };
         } else {

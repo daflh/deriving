@@ -1,25 +1,26 @@
-import base32 from 'base32.js';
 import { bech32 } from 'bech32';
-import crc from 'crc';
-import * as bip32 from 'bip32';
+import { keccak_256 } from 'js-sha3';
+import * as secp from 'secp256k1';
 import * as edHd from 'ed25519-hd-key';
-import * as bitcoinLib from 'bitcoinjs-lib';
-import * as ethereumUtil from 'ethereumjs-util';
 import nacl from 'tweetnacl';
+import * as bip32 from 'bip32';
+import * as bitcoinLib from 'bitcoinjs-lib';
 import networkList from '../network-list.json';
 import {
 	base58,
+    ethereumUtils,
 	rippleUtils,
+    stellarUtils,
 	cosmosUtils,
 	eosUtils
 } from './utils';
 
-const keyGen = {};
+function keyGenerator(netId, seedValue, dPath) {
+    const network = networkList[netId];
+    const seedBuffer = Buffer.from(seedValue, 'hex');
+    let privateKey, publicKey, address;
 
-for (const netId in networkList) {
-	const network = networkList[netId];
-
-    if (netId === 'bitcoin' || network.useBitcoinKeyScheme) {
+    if (network.curve === 'secp256k1') {
         const prefixes = Object.assign({}, bitcoinLib.networks.bitcoin);
         if (network.hasOwnProperty('p2pkhPrefix'))
             prefixes.pubKeyHash = network.p2pkhPrefix;
@@ -27,138 +28,102 @@ for (const netId in networkList) {
             prefixes.scriptHash = network.p2shPrefix;
         if (network.hasOwnProperty('wifPrefix'))
             prefixes.wif = network.wifPrefix;
+        const masterWallet = bip32.fromSeed(seedBuffer, prefixes);
+        const wallet = masterWallet.derivePath(dPath);
 
-        keyGen[netId] = (seed, path) => {
-            const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = bip32.fromSeed(seedBuffer, prefixes);
-            const wallet = masterWallet.derivePath(path);
-            const rawPublicKey = wallet.publicKey;
-            let publicKey = rawPublicKey.toString('hex');
-            let privateKey = wallet.toWIF();
-            let { address } = bitcoinLib.payments.p2pkh({ pubkey: rawPublicKey, network: prefixes });
+        if (netId === 'bitcoin' || network.useBitcoinKeyScheme) {
+            const publicKeyBuffer = wallet.publicKey;
+            
+            privateKey = wallet.toWIF();
+            publicKey = publicKeyBuffer.toString('hex');
+            address = bitcoinLib.payments.p2pkh({
+                pubkey: publicKeyBuffer,
+                network: prefixes
+            }).address;
 
             if (netId === 'ripple') {
-                address = rippleUtils.convertAddress(address);
                 privateKey = rippleUtils.convertPrivateKey(privateKey);
-                
+                address = rippleUtils.convertAddress(address);
+
             } else if (netId === 'eos') {
-                address = '';
-                publicKey = eosUtils.bufferToPublicKey(rawPublicKey);
                 privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
+                publicKey = eosUtils.bufferToPublicKey(publicKeyBuffer);
+                address = '';
 
             } else if (netId === 'cosmos') {
-                address = cosmosUtils.bufferToAddress(rawPublicKey, 'cosmos');
-                publicKey = cosmosUtils.bufferToPublicKey(rawPublicKey, 'cosmos');
                 privateKey = wallet.privateKey.toString('base64');
+                publicKey = cosmosUtils.bufferToPublicKey(publicKeyBuffer, 'cosmos');
+                address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'cosmos');
 
             } else if (netId === 'thorChain') {
-				address = cosmosUtils.bufferToAddress(rawPublicKey, 'thor');
-				publicKey = rawPublicKey.toString("hex");
-				privateKey = wallet.privateKey.toString("hex");
+                privateKey = wallet.privateKey.toString("hex");
+                publicKey = publicKeyBuffer.toString("hex");
+				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'thor');
 
 			} else if (netId === 'terra') {
-				address = cosmosUtils.bufferToAddress(rawPublicKey, 'terra');
-				publicKey = rawPublicKey.toString("hex");
-				privateKey = wallet.privateKey.toString("hex");
+                privateKey = wallet.privateKey.toString("hex");
+                publicKey = publicKeyBuffer.toString("hex");
+				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'terra');
 
             } else if (netId === 'binanceChain') {
-				address = cosmosUtils.bufferToAddress(rawPublicKey, 'bnb');
-				publicKey = cosmosUtils.bufferToPublicKey(rawPublicKey, 'bnb');
-				privateKey = wallet.privateKey.toString("hex");
+                privateKey = wallet.privateKey.toString("hex");
+                publicKey = cosmosUtils.bufferToPublicKey(publicKeyBuffer, 'bnb');
+				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'bnb');
                 
             } else if (netId === 'cryptoOrgChain') {
-				address = cosmosUtils.bufferToAddress(rawPublicKey, 'cro');
-				publicKey = rawPublicKey.toString("hex");
-				privateKey = wallet.privateKey.toString("hex");
+                privateKey = wallet.privateKey.toString("hex");
+                publicKey = publicKeyBuffer.toString("hex");
+				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'cro');
 			}
-        
-            return { address, publicKey, privateKey };
-        };
 
-    } else if (netId === 'ethereum' || network.isEvmCompatible) {
-        keyGen[netId] = (seed, path) => {
-            const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = bip32.fromSeed(seedBuffer);
-            const wallet = masterWallet.derivePath(path);
-			const ethPublicKey = ethereumUtil.importPublic(wallet.publicKey);
-			const addressBuffer = ethereumUtil.publicToAddress(ethPublicKey);
-			const hexAddress = addressBuffer.toString('hex');
-			const checksumAddress = ethereumUtil.toChecksumAddress(hexAddress);
-        
-            return {
-				address: ethereumUtil.addHexPrefix(checksumAddress),
-				publicKey: ethereumUtil.addHexPrefix(wallet.publicKey.toString('hex')),
-				privateKey: ethereumUtil.bufferToHex(wallet.privateKey)
-			};
-        };
+        } else if (netId === 'ethereum' || network.isEvmCompatible) {
+            const publicKeyBuffer = Buffer.from(secp.publicKeyCreate(wallet.privateKey, false)).slice(1);
+			const addressBuffer = Buffer.from(keccak_256(publicKeyBuffer), 'hex').slice(-20);
+            
+            privateKey = wallet.privateKey.toString('hex');
+            publicKey = publicKeyBuffer.toString('hex');
+			address = ethereumUtils.toChecksumAddress(addressBuffer.toString('hex'));
 
-	} else if (netId === 'tron') {
-        keyGen[netId] = (seed, path) => {
-            const seedBuffer = Buffer.from(seed, 'hex');
-            const masterWallet = bip32.fromSeed(seedBuffer);
-            const wallet = masterWallet.derivePath(path);
-			const ethPublicKey = ethereumUtil.importPublic(wallet.publicKey);
-			const addressBuffer = ethereumUtil.publicToAddress(ethPublicKey);
-			const address = bitcoinLib.address.toBase58Check(addressBuffer, 0x41);
-        
-            return {
-				address,
-				publicKey: wallet.publicKey.toString('hex'),
-				privateKey: wallet.privateKey.toString('hex')
-			};
-        };
+            if (netId === 'tron') {
+                address = bitcoinLib.address.toBase58Check(addressBuffer, 0x41);
+            }
 
-    } else if (netId === 'elrond') {
-        keyGen[netId] = (seed, path) => {
-            const prvKeyBuffer = edHd.derivePath(path, seed).key;
-            const pubKeyBuffer = edHd.getPublicKey(prvKeyBuffer, false);
-            const address = bech32.encode('erd', bech32.toWords(pubKeyBuffer));
-        
-            return {
-                address,
-                publicKey: pubKeyBuffer.toString('hex'),
-                privateKey: prvKeyBuffer.toString('hex')
-            };
-        };
-
-    } else if (netId === 'solana') {
-        keyGen[netId] = (seed, path) => {
-            const derivedSeed = edHd.derivePath(path, seed).key;
-            const keypair = nacl.sign.keyPair.fromSeed(derivedSeed);
-            const publicKey = base58.encode(keypair.publicKey);
-            const privateKey = base58.encode(keypair.secretKey);
-        
-            return { address: publicKey, publicKey, privateKey };
-        };
-
-    } else if (netId === 'stellar') {
-        function encodeCheck(versionByteName, data) {    
-            const versionBytes = {
-                ed25519PublicKey: 6 << 3, // G
-                ed25519SecretSeed: 18 << 3, // S
-            };
-            const versionByte = versionBytes[versionByteName];
-            const versionBuffer = Buffer.from([versionByte]);
-            const payload = Buffer.concat([versionBuffer, Buffer.from(data)]);
-            const checksum = Buffer.alloc(2);
-            checksum.writeUInt16LE(crc.crc16xmodem(payload), 0);
-            const unencoded = Buffer.concat([payload, checksum]);
-          
-            return base32.encode(unencoded);
+        } else {
+            throw new Error(`Unknown network: ${netId}`);
         }
 
-        keyGen[netId] = (seed, path) => {
-            const derivedSeed = edHd.derivePath(path, seed).key;
-            const rawPublicKey = nacl.sign.keyPair.fromSeed(derivedSeed).publicKey;
-            const publicKey = encodeCheck('ed25519PublicKey', rawPublicKey);
-            const privateKey = encodeCheck('ed25519SecretSeed', derivedSeed);
+    } else if (network.curve === 'ed25519') {
+        const derivedKeys = edHd.derivePath(dPath, seedValue);
+        const privateKeyBuffer = derivedKeys.key;
 
-            return { address: publicKey, publicKey, privateKey };
-        };
+        if (netId === 'elrond') {
+            const publicKeyBuffer = edHd.getPublicKey(privateKeyBuffer, false);
+    
+            privateKey = privateKeyBuffer.toString('hex');
+            publicKey = publicKeyBuffer.toString('hex');
+            address = bech32.encode('erd', bech32.toWords(publicKeyBuffer));
+    
+        } else if (netId === 'solana') {
+            const signedKeyPair = nacl.sign.keyPair.fromSeed(privateKeyBuffer);
+    
+            privateKey = base58.encode(signedKeyPair.secretKey);
+            publicKey = address = base58.encode(signedKeyPair.publicKey);
+    
+        } else if (netId === 'stellar') {
+            const rawPublicKey = nacl.sign.keyPair.fromSeed(privateKeyBuffer).publicKey;
+            
+            privateKey = stellarUtils.encodeCheck('ed25519SecretSeed', privateKeyBuffer);
+            publicKey = address = stellarUtils.encodeCheck('ed25519PublicKey', rawPublicKey);
+
+        } else {
+            throw new Error(`Unknown network: ${netId}`);
+        }
 
     } else {
-        throw new Error(`Undescribed network: ${netId}`);
+        throw new Error(`Unknown network: ${netId}`);
     }
+
+    return { privateKey, publicKey, address };
 }
 
-export default keyGen;
+export default keyGenerator;
