@@ -30,8 +30,8 @@
             <div>
                 <label for="network">Coin / Network</label>
                 <select id="network" x-model="networkSelected">
-                    <template x-for="[key, network] in Object.entries($store.networkList).sort((a, b) => (a[1].coinSymbol > b[1].coinSymbol) ? 1 : ((b[1].coinSymbol > a[1].coinSymbol) ? -1 : 0))">
-                        <option :value="key" x-text="`${network.coinSymbol} - ${network.name}`" :selected="networkSelected == key"></option>
+                    <template x-for="[key, network] in Object.entries($store.networkList).sort((a, b) => (a[1].ticker > b[1].ticker) ? 1 : ((b[1].ticker > a[1].ticker) ? -1 : 0))">
+                        <option :value="key" x-text="`${network.ticker} - ${network.name}`" :selected="networkSelected == key"></option>
                     </template>
                 </select>
             </div>

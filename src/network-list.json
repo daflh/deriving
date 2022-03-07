@@ -1,7 +1,7 @@
 {
     "avalancheC": {
         "name": "Avalanche C-Chain",
-        "coinSymbol": "AVAX",
+        "ticker": "AVAX",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -10,7 +10,7 @@
     },
     "binanceChain": {
         "name": "Binance Chain",
-        "coinSymbol": "BNB",
+        "ticker": "BNB",
         "derivationPaths": {
             "default": "m/44'/714'/0'/0/0"
         },
@@ -19,7 +19,7 @@
     },
     "binanceSmartChain": {
         "name": "Binance Smart Chain",
-        "coinSymbol": "BNB",
+        "ticker": "BNB",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -28,7 +28,7 @@
     },
     "bitcoin": {
         "name": "Bitcoin",
-        "coinSymbol": "BTC",
+        "ticker": "BTC",
         "derivationPaths": {
             "default": "m/44'/0'/0'/0/0",
             "Bitcoin Core": "m/0'/0'/0'"
@@ -37,7 +37,7 @@
     },
     "bitcoinCash": {
         "name": "Bitcoin Cash",
-        "coinSymbol": "BCH",
+        "ticker": "BCH",
         "derivationPaths": {
             "default": "m/44'/145'/0'/0/0"
         },
@@ -46,7 +46,7 @@
     },
     "bitcoinGold": {
         "name": "Bitcoin Gold",
-        "coinSymbol": "BTG",
+        "ticker": "BTG",
         "derivationPaths": {
             "default": "m/44'/156'/0'/0/0"
         },
@@ -57,7 +57,7 @@
     },
     "bitcoinSv": {
         "name": "Bitcoin SV",
-        "coinSymbol": "BSV",
+        "ticker": "BSV",
         "derivationPaths": {
             "default": "m/44'/236'/0'/0/0"
         },
@@ -66,7 +66,7 @@
     },
     "cosmos": {
         "name": "Cosmos Hub",
-        "coinSymbol": "ATOM",
+        "ticker": "ATOM",
         "derivationPaths": {
             "default": "m/44'/118'/0'/0/0"
         },
@@ -75,7 +75,7 @@
     },
     "cronos": {
         "name": "Cronos",
-        "coinSymbol": "CRO",
+        "ticker": "CRO",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -84,7 +84,7 @@
     },
     "cryptoOrgChain": {
         "name": "Crypto.org Chain",
-        "coinSymbol": "CRO",
+        "ticker": "CRO",
         "derivationPaths": {
             "default": "m/44'/394'/0'/0/0"
         },
@@ -93,7 +93,7 @@
     },
     "dash": {
         "name": "Dash",
-        "coinSymbol": "DASH",
+        "ticker": "DASH",
         "derivationPaths": {
             "default": "m/44'/5'/0'/0/0"
         },
@@ -105,7 +105,7 @@
     },
     "dogecoin": {
         "name": "Dogecoin",
-        "coinSymbol": "DOGE",
+        "ticker": "DOGE",
         "derivationPaths": {
             "default": "m/44'/3'/0'/0/0"
         },
@@ -117,7 +117,7 @@
     },
     "elrond": {
         "name": "Elrond",
-        "coinSymbol": "EGLD",
+        "ticker": "EGLD",
         "derivationPaths": {
             "default": "m/44'/508'/0'/0'/0'"
         },
@@ -125,7 +125,7 @@
     },
     "eos": {
         "name": "EOS",
-        "coinSymbol": "EOS",
+        "ticker": "EOS",
         "derivationPaths": {
             "default": "m/44'/194'/0'/0/0"
         },
@@ -134,7 +134,7 @@
     },
     "ethereum": {
         "name": "Ethereum",
-        "coinSymbol": "ETH",
+        "ticker": "ETH",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -143,7 +143,7 @@
     },
     "ethereumClassic": {
         "name": "Ethereum Classic",
-        "coinSymbol": "ETC",
+        "ticker": "ETC",
         "derivationPaths": {
             "default": "m/44'/61'/0'/0/0"
         },
@@ -152,7 +152,7 @@
     },
     "fantom": {
         "name": "Fantom",
-        "coinSymbol": "FTM",
+        "ticker": "FTM",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -161,7 +161,7 @@
     },
     "litecoin": {
         "name": "Litecoin",
-        "coinSymbol": "LTC",
+        "ticker": "LTC",
         "derivationPaths": {
             "default": "m/44'/2'/0'/0/0"
         },
@@ -173,7 +173,7 @@
     },
     "polygon": {
         "name": "Polygon",
-        "coinSymbol": "MATIC",
+        "ticker": "MATIC",
         "derivationPaths": {
             "default": "m/44'/60'/0'/0/0"
         },
@@ -182,7 +182,7 @@
     },
     "ripple": {
         "name": "Ripple",
-        "coinSymbol": "XRP",
+        "ticker": "XRP",
         "derivationPaths": {
             "default": "m/44'/144'/0'/0/0"
         },
@@ -191,7 +191,7 @@
     },
     "solana": {
         "name": "Solana",
-        "coinSymbol": "SOL",
+        "ticker": "SOL",
         "derivationPaths": {
             "default": "m/44'/501'/0'/0'",
             "Trust Wallet": "m/44'/501'/0'"
@@ -200,7 +200,7 @@
     },
     "stellar": {
         "name": "Stellar",
-        "coinSymbol": "XLM",
+        "ticker": "XLM",
         "derivationPaths": {
             "default": "m/44'/148'/0'"
         },
@@ -208,7 +208,7 @@
     },
     "terra": {
         "name": "Terra",
-        "coinSymbol": "LUNA",
+        "ticker": "LUNA",
         "derivationPaths": {
             "default": "m/44'/330'/0'/0/0"
         },
@@ -217,7 +217,7 @@
     },
     "thorChain": {
         "name": "THORChain",
-        "coinSymbol": "RUNE",
+        "ticker": "RUNE",
         "derivationPaths": {
             "default": "m/44'/931'/0'/0/0"
         },
@@ -226,7 +226,7 @@
     },
     "tron": {
         "name": "TRON",
-        "coinSymbol": "TRX",
+        "ticker": "TRX",
         "derivationPaths": {
             "default": "m/44'/195'/0'/0/0"
         },
@@ -235,7 +235,7 @@
     },
     "veChain": {
         "name": "VeChain",
-        "coinSymbol": "VET",
+        "ticker": "VET",
         "derivationPaths": {
             "default": "m/44'/818'/0'/0/0"
         },
