@@ -3,6 +3,7 @@ import base32 from 'base32.js';
 import { bech32 } from 'bech32';
 import createHash from 'create-hash';
 import { keccak_256 } from 'js-sha3';
+import blake from 'blakejs';
 import crc from 'crc';
 
 export const base58 = basex('123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz');
@@ -85,6 +86,28 @@ export const eosUtils = {
         privBuf = Buffer.concat([privBuf, Buffer.from(checksum, 'hex')]);
 
         return base58.encode(privBuf);
+    }
+};
+
+export const filecoinUtils = {
+    publicKeyToAddress(publicKey) {
+        function getPayload(publicKey) {
+            const blakeCtx = blake.blake2bInit(20);
+            blake.blake2bUpdate(blakeCtx, publicKey);
+            return Buffer.from(blake.blake2bFinal(blakeCtx));
+        }
+            
+        function getChecksum(payload) {
+            const blakeCtx = blake.blake2bInit(4);
+            blake.blake2bUpdate(blakeCtx, payload);
+            return Buffer.from(blake.blake2bFinal(blakeCtx));
+        }
+          
+        const prefix = 'f1';
+        const payload = getPayload(publicKey);
+        const checksum = getChecksum(Buffer.concat([Buffer.from('01', 'hex'), payload]));
+
+        return prefix + base32.encode(Buffer.concat([payload, checksum])).toLowerCase();
     }
 };
 

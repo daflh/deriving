@@ -12,7 +12,8 @@ import {
 	rippleUtils,
     stellarUtils,
 	cosmosUtils,
-	eosUtils
+	eosUtils,
+    filecoinUtils
 } from './utils';
 
 function keyGenerator(netId, seedValue, dPath) {
@@ -49,6 +50,16 @@ function keyGenerator(netId, seedValue, dPath) {
                 privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
                 publicKey = eosUtils.bufferToPublicKey(publicKeyBuffer);
                 address = '';
+
+            } else if (netId === 'filecoin') {
+                const pubKey = secp.publicKeyCreate(wallet.privateKey);
+                let uncompressedPublicKey = new Uint8Array(65);
+                secp.publicKeyConvert(pubKey, false, uncompressedPublicKey);
+                uncompressedPublicKey = Buffer.from(uncompressedPublicKey);
+
+                privateKey = wallet.privateKey.toString("hex");
+                publicKey = uncompressedPublicKey.toString('hex');
+                address = filecoinUtils.publicKeyToAddress(uncompressedPublicKey);
 
             } else if (netId === 'cosmos') {
                 privateKey = wallet.privateKey.toString('base64');
