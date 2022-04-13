@@ -8,12 +8,7 @@ import * as bitcoinLib from 'bitcoinjs-lib';
 import networkList from '../network-list.json';
 import {
 	base58,
-    ethereumUtils,
-	rippleUtils,
-    stellarUtils,
-	cosmosUtils,
-	eosUtils,
-    filecoinUtils
+    net as netUtils
 } from './utils';
 
 function keyGenerator(netId, seedValue, dPath) {
@@ -43,12 +38,12 @@ function keyGenerator(netId, seedValue, dPath) {
             }).address;
 
             if (netId === 'ripple') {
-                privateKey = rippleUtils.convertPrivateKey(privateKey);
-                address = rippleUtils.convertAddress(address);
+                privateKey = netUtils.ripple.convertPrivateKey(privateKey);
+                address = netUtils.ripple.convertAddress(address);
 
             } else if (netId === 'eos') {
-                privateKey = eosUtils.bufferToPrivateKey(wallet.privateKey);
-                publicKey = eosUtils.bufferToPublicKey(publicKeyBuffer);
+                privateKey = netUtils.eos.bufferToPrivateKey(wallet.privateKey);
+                publicKey = netUtils.eos.bufferToPublicKey(publicKeyBuffer);
                 address = '';
 
             } else if (netId === 'filecoin') {
@@ -59,44 +54,49 @@ function keyGenerator(netId, seedValue, dPath) {
 
                 privateKey = wallet.privateKey.toString("hex");
                 publicKey = uncompressedPublicKey.toString('hex');
-                address = filecoinUtils.publicKeyToAddress(uncompressedPublicKey);
+                address = netUtils.filecoin.publicKeyToAddress(uncompressedPublicKey);
 
             } else if (netId === 'cosmos') {
                 privateKey = wallet.privateKey.toString('base64');
-                publicKey = cosmosUtils.bufferToPublicKey(publicKeyBuffer, 'cosmos');
-                address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'cosmos');
+                publicKey = netUtils.cosmos.bufferToPublicKey(publicKeyBuffer, 'cosmos');
+                address = netUtils.cosmos.bufferToAddress(publicKeyBuffer, 'cosmos');
 
             } else if (netId === 'thorChain') {
                 privateKey = wallet.privateKey.toString("hex");
                 publicKey = publicKeyBuffer.toString("hex");
-				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'thor');
+				address = netUtils.cosmos.bufferToAddress(publicKeyBuffer, 'thor');
 
 			} else if (netId === 'terra') {
                 privateKey = wallet.privateKey.toString("hex");
                 publicKey = publicKeyBuffer.toString("hex");
-				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'terra');
+				address = netUtils.cosmos.bufferToAddress(publicKeyBuffer, 'terra');
 
             } else if (netId === 'binanceChain') {
                 privateKey = wallet.privateKey.toString("hex");
-                publicKey = cosmosUtils.bufferToPublicKey(publicKeyBuffer, 'bnb');
-				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'bnb');
+                publicKey = netUtils.cosmos.bufferToPublicKey(publicKeyBuffer, 'bnb');
+				address = netUtils.cosmos.bufferToAddress(publicKeyBuffer, 'bnb');
                 
             } else if (netId === 'cryptoOrgChain') {
                 privateKey = wallet.privateKey.toString("hex");
                 publicKey = publicKeyBuffer.toString("hex");
-				address = cosmosUtils.bufferToAddress(publicKeyBuffer, 'cro');
+				address = netUtils.cosmos.bufferToAddress(publicKeyBuffer, 'cro');
 			}
 
         } else if (netId === 'ethereum' || network.isEvmCompatible) {
-            const publicKeyBuffer = Buffer.from(secp.publicKeyCreate(wallet.privateKey, false)).slice(1);
-			const addressBuffer = Buffer.from(keccak_256(publicKeyBuffer), 'hex').slice(-20);
+            const pubKeyBuffer = Buffer.from(secp.publicKeyCreate(wallet.privateKey, false)).slice(1);
+            const pubKeyCompressedBuffer = Buffer.from(secp.publicKeyCreate(wallet.privateKey, true));
+			const addressBuffer = Buffer.from(keccak_256(pubKeyBuffer), 'hex').slice(-20);
             
             privateKey = wallet.privateKey.toString('hex');
-            publicKey = publicKeyBuffer.toString('hex');
-			address = ethereumUtils.toChecksumAddress(addressBuffer.toString('hex'));
+            publicKey = pubKeyBuffer.toString('hex');
+			address = netUtils.ethereum.toChecksumAddress(addressBuffer.toString('hex'));
 
             if (netId === 'tron') {
                 address = bitcoinLib.address.toBase58Check(addressBuffer, 0x41);
+            } else if (netId === 'harmony') {
+                privateKey = '0x' + privateKey;
+                publicKey = '0x' + pubKeyCompressedBuffer.toString('hex');
+                address = netUtils.harmony.convertAddress(address);
             }
 
         } else {
@@ -123,8 +123,8 @@ function keyGenerator(netId, seedValue, dPath) {
         } else if (netId === 'stellar') {
             const rawPublicKey = nacl.sign.keyPair.fromSeed(privateKeyBuffer).publicKey;
             
-            privateKey = stellarUtils.encodeCheck('ed25519SecretSeed', privateKeyBuffer);
-            publicKey = address = stellarUtils.encodeCheck('ed25519PublicKey', rawPublicKey);
+            privateKey = netUtils.stellar.encodeCheck('ed25519SecretSeed', privateKeyBuffer);
+            publicKey = address = netUtils.stellar.encodeCheck('ed25519PublicKey', rawPublicKey);
 
         } else {
             throw new Error(`Unknown network: ${netId}`);
