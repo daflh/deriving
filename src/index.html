@@ -1,101 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Deriving</title>
-    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgo=">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="./scss/main.scss">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deriving</title>
+  <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgo=">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="./scss/main.scss">
 </head>
 <body>
-    <header>
-        <h2>Deriving</h2>
-    </header>
-    <main x-data="main">
-        <div class="settings">
-            <div class="settings-row mnemonic">
-                <label for="mnemonic">BIP39 Mnemonic</label>
-                <div class="input-group">
-                    <textarea 
-                        id="mnemonic" 
-                        x-model.debounce="mnemonicValue" 
-                        placeholder="Enter your mnemonic phrase here, typically 12 or 24 words long"
-                    >
-                    <button @click="generateMnemonic">Generate</button>
-                </div>
-            </div>
-            <div class="settings-row seed">
-                <label for="seed">BIP39 Seed</label>
-                <textarea id="seed" x-model="seedValue" disabled>
-            </div>
-            <div class="settings-row network">
-                <label for="network">Coin / Network</label>
-                <select id="network" x-model="networkSelected">
-                    <template x-for="[key, network] in Object.entries($store.networkList).sort((a, b) => (a[1].ticker > b[1].ticker) ? 1 : ((b[1].ticker > a[1].ticker) ? -1 : 0))">
-                        <option 
-                            :value="key" 
-                            :selected="networkSelected == key"
-                            x-text="`${network.ticker} - ${network.name}`"
-                        ></option>
-                    </template>
-                </select>
-            </div>
-            <div class="settings-row derivation-path">
-                <label for="derivpath">Derivation Path</label>
-                <select id="derivpath" x-model="dPathSelected">
-                    <template x-for="[name, val] in Object.entries($store.networkList[networkSelected].derivationPaths)">
-                        <option 
-                            :value="name" 
-                            :selected="name == 'default'" 
-                            x-text="`${name != 'default' ? name : 'Default'} - ${val}`"
-                        ></option>
-                    </template>
-                    <option value="custom">Custom</option>
-                </select>
-                <input 
-                    type="text" 
-                    placeholder="Enter custom derivation path" 
-                    x-model.debounce="dPathValue" 
-                    :disabled="dPathSelected != 'custom'"
-                >
-            </div>
+  <header>
+    <h2>Deriving</h2>
+  </header>
+  <main x-data="main">
+    <div class="settings">
+      <div class="settings-row mnemonic">
+        <label for="mnemonic">BIP39 Mnemonic</label>
+        <div class="input-group">
+          <textarea 
+            id="mnemonic" 
+            x-model.debounce="mnemonicValue" 
+            placeholder="Enter your mnemonic phrase here, typically 12 or 24 words long"
+          >
+          <button @click="generateMnemonic">Generate</button>
         </div>
-        <div class="result">
-            <div class="result-row">
-                <h5>Address</h5>
-                <div x-show="networkSelected !== 'bitcoinCash'" x-text="keyPair.address || '~'"></div>
-                <div x-show="networkSelected === 'bitcoinCash'" class="bch-address">
-                    <span x-text="keyPair.address || '~'"></span>
-                    <span class="bch-address-type">(Legacy)</span>
-                    <br>
-                    <span x-text="bchUtils.toBitpayAddress(keyPair.address) || '~'"></span>
-                    <span class="bch-address-type">(BitPay)</span>
-                    <br>
-                    <span x-text="bchUtils.toCashAddress(keyPair.address) || '~'"></span>
-                    <span class="bch-address-type">(CashAddr)</span>
-                </div>
-            </div>
-            <div class="result-row">
-                <h5>Public Key</h5>
-                <div x-text="keyPair.publicKey || '~'"></div>
-            </div>
-            <div class="result-row">
-                <h5>Private Key</h5>
-                <div x-text="keyPair.privateKey || '~'"></div>
-            </div>
+      </div>
+      <div class="settings-row seed">
+        <label for="seed">BIP39 Seed</label>
+        <textarea id="seed" x-model="seedValue" disabled>
+      </div>
+      <div class="settings-row network">
+        <label for="network">Coin / Network</label>
+        <select id="network" x-model="networkSelected">
+          <template x-for="[key, network] in networkListSortedByTicker">
+            <option 
+              :value="key" 
+              :selected="networkSelected == key"
+              x-text="`${network.ticker} - ${network.name}`"
+            ></option>
+          </template>
+        </select>
+      </div>
+      <div class="settings-row derivation-path">
+        <label for="derivpath">Derivation Path</label>
+        <select id="derivpath" x-model="dPathSelected">
+          <template x-for="[name, val] in Object.entries(selectedNetworkDPaths)">
+            <option 
+              :value="name" 
+              :selected="name == 'default'" 
+              x-text="`${name != 'default' ? name : 'Default'} - ${val}`"
+            ></option>
+          </template>
+          <option value="custom">Custom</option>
+        </select>
+        <input 
+          type="text" 
+          placeholder="Enter custom derivation path" 
+          x-model.debounce="dPathValue" 
+          :disabled="dPathSelected != 'custom'"
+        >
+      </div>
+    </div>
+    <div class="result">
+      <div class="result-row">
+        <h5>Address</h5>
+        <div x-show="networkSelected !== 'bitcoinCash'" x-text="keyPair.address || '~'"></div>
+        <div x-show="networkSelected === 'bitcoinCash'" class="bch-address">
+          <span x-text="keyPair.address || '~'"></span>
+          <span class="bch-address-type">(Legacy)</span>
+          <br>
+          <span x-text="bchUtils.toBitpayAddress(keyPair.address) || '~'"></span>
+          <span class="bch-address-type">(BitPay)</span>
+          <br>
+          <span x-text="bchUtils.toCashAddress(keyPair.address) || '~'"></span>
+          <span class="bch-address-type">(CashAddr)</span>
         </div>
-        <template x-teleport="body">
-            <div 
-                id="error-toast" 
-                x-show="isError" 
-                x-transition.duration.400ms 
-                x-text="errorText"
-            ></div>
-        </template>
-    </main>
-    <script type="module" src="./js/main.js"></script>
+      </div>
+      <div class="result-row">
+        <h5>Public Key</h5>
+        <div x-text="keyPair.publicKey || '~'"></div>
+      </div>
+      <div class="result-row">
+        <h5>Private Key</h5>
+        <div x-text="keyPair.privateKey || '~'"></div>
+      </div>
+    </div>
+    <template x-teleport="body">
+      <div 
+        id="error-toast" 
+        x-show="isError" 
+        x-transition.duration.400ms 
+        x-text="errorText"
+      ></div>
+    </template>
+  </main>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

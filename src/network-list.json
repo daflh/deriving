@@ -1,263 +1,263 @@
 {
-    "avalancheC": {
-        "name": "Avalanche C-Chain",
-        "ticker": "AVAX",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+  "avalancheC": {
+    "name": "Avalanche C-Chain",
+    "ticker": "AVAX",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "binanceChain": {
-        "name": "Binance Chain",
-        "ticker": "BNB",
-        "derivationPaths": {
-            "default": "m/44'/714'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "binanceChain": {
+    "name": "Binance Chain",
+    "ticker": "BNB",
+    "derivationPaths": {
+      "default": "m/44'/714'/0'/0/0"
     },
-    "binanceSmartChain": {
-        "name": "Binance Smart Chain",
-        "ticker": "BNB",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "binanceSmartChain": {
+    "name": "Binance Smart Chain",
+    "ticker": "BNB",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "bitcoin": {
-        "name": "Bitcoin",
-        "ticker": "BTC",
-        "derivationPaths": {
-            "default": "m/44'/0'/0'/0/0",
-            "Bitcoin Core": "m/0'/0'/0'"
-        },
-        "curve": "secp256k1"
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "bitcoin": {
+    "name": "Bitcoin",
+    "ticker": "BTC",
+    "derivationPaths": {
+      "default": "m/44'/0'/0'/0/0",
+      "Bitcoin Core": "m/0'/0'/0'"
     },
-    "bitcoinCash": {
-        "name": "Bitcoin Cash",
-        "ticker": "BCH",
-        "derivationPaths": {
-            "default": "m/44'/145'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1"
+  },
+  "bitcoinCash": {
+    "name": "Bitcoin Cash",
+    "ticker": "BCH",
+    "derivationPaths": {
+      "default": "m/44'/145'/0'/0/0"
     },
-    "bitcoinGold": {
-        "name": "Bitcoin Gold",
-        "ticker": "BTG",
-        "derivationPaths": {
-            "default": "m/44'/156'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true,
-        "p2pkhPrefix": 38,
-        "p2shPrefix": 23
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "bitcoinGold": {
+    "name": "Bitcoin Gold",
+    "ticker": "BTG",
+    "derivationPaths": {
+      "default": "m/44'/156'/0'/0/0"
     },
-    "bitcoinSv": {
-        "name": "Bitcoin SV",
-        "ticker": "BSV",
-        "derivationPaths": {
-            "default": "m/44'/236'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 38,
+    "p2shPrefix": 23
+  },
+  "bitcoinSv": {
+    "name": "Bitcoin SV",
+    "ticker": "BSV",
+    "derivationPaths": {
+      "default": "m/44'/236'/0'/0/0"
     },
-    "cosmos": {
-        "name": "Cosmos Hub",
-        "ticker": "ATOM",
-        "derivationPaths": {
-            "default": "m/44'/118'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "cosmos": {
+    "name": "Cosmos Hub",
+    "ticker": "ATOM",
+    "derivationPaths": {
+      "default": "m/44'/118'/0'/0/0"
     },
-    "cronos": {
-        "name": "Cronos",
-        "ticker": "CRO",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "cronos": {
+    "name": "Cronos",
+    "ticker": "CRO",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "cryptoOrgChain": {
-        "name": "Crypto.org Chain",
-        "ticker": "CRO",
-        "derivationPaths": {
-            "default": "m/44'/394'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "cryptoOrgChain": {
+    "name": "Crypto.org Chain",
+    "ticker": "CRO",
+    "derivationPaths": {
+      "default": "m/44'/394'/0'/0/0"
     },
-    "dash": {
-        "name": "Dash",
-        "ticker": "DASH",
-        "derivationPaths": {
-            "default": "m/44'/5'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true,
-        "p2pkhPrefix": 76,
-        "p2shPrefix": 16,
-        "wifPrefix": 204
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "dash": {
+    "name": "Dash",
+    "ticker": "DASH",
+    "derivationPaths": {
+      "default": "m/44'/5'/0'/0/0"
     },
-    "dogecoin": {
-        "name": "Dogecoin",
-        "ticker": "DOGE",
-        "derivationPaths": {
-            "default": "m/44'/3'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true,
-        "p2pkhPrefix": 30,
-        "p2shPrefix": 22,
-        "wifPrefix": 158
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 76,
+    "p2shPrefix": 16,
+    "wifPrefix": 204
+  },
+  "dogecoin": {
+    "name": "Dogecoin",
+    "ticker": "DOGE",
+    "derivationPaths": {
+      "default": "m/44'/3'/0'/0/0"
     },
-    "elrond": {
-        "name": "Elrond",
-        "ticker": "EGLD",
-        "derivationPaths": {
-            "default": "m/44'/508'/0'/0'/0'"
-        },
-        "curve": "ed25519"
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 30,
+    "p2shPrefix": 22,
+    "wifPrefix": 158
+  },
+  "elrond": {
+    "name": "Elrond",
+    "ticker": "EGLD",
+    "derivationPaths": {
+      "default": "m/44'/508'/0'/0'/0'"
     },
-    "eos": {
-        "name": "EOS",
-        "ticker": "EOS",
-        "derivationPaths": {
-            "default": "m/44'/194'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "ed25519"
+  },
+  "eos": {
+    "name": "EOS",
+    "ticker": "EOS",
+    "derivationPaths": {
+      "default": "m/44'/194'/0'/0/0"
     },
-    "ethereum": {
-        "name": "Ethereum",
-        "ticker": "ETH",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "ethereum": {
+    "name": "Ethereum",
+    "ticker": "ETH",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "ethereumClassic": {
-        "name": "Ethereum Classic",
-        "ticker": "ETC",
-        "derivationPaths": {
-            "default": "m/44'/61'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "ethereumClassic": {
+    "name": "Ethereum Classic",
+    "ticker": "ETC",
+    "derivationPaths": {
+      "default": "m/44'/61'/0'/0/0"
     },
-    "fantom": {
-        "name": "Fantom",
-        "ticker": "FTM",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "fantom": {
+    "name": "Fantom",
+    "ticker": "FTM",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "filecoin": {
-        "name": "Filecoin",
-        "ticker": "FIL",
-        "derivationPaths": {
-            "default": "m/44'/461'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "filecoin": {
+    "name": "Filecoin",
+    "ticker": "FIL",
+    "derivationPaths": {
+      "default": "m/44'/461'/0'/0/0"
     },
-    "harmony": {
-        "name": "Harmony",
-        "ticker": "ONE",
-        "derivationPaths": {
-            "default": "m/44'/1023'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "harmony": {
+    "name": "Harmony",
+    "ticker": "ONE",
+    "derivationPaths": {
+      "default": "m/44'/1023'/0'/0/0"
     },
-    "litecoin": {
-        "name": "Litecoin",
-        "ticker": "LTC",
-        "derivationPaths": {
-            "default": "m/44'/2'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true,
-        "p2pkhPrefix": 48,
-        "p2shPrefix": 50,
-        "wifPrefix": 176
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "litecoin": {
+    "name": "Litecoin",
+    "ticker": "LTC",
+    "derivationPaths": {
+      "default": "m/44'/2'/0'/0/0"
     },
-    "polygon": {
-        "name": "Polygon",
-        "ticker": "MATIC",
-        "derivationPaths": {
-            "default": "m/44'/60'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 48,
+    "p2shPrefix": 50,
+    "wifPrefix": 176
+  },
+  "polygon": {
+    "name": "Polygon",
+    "ticker": "MATIC",
+    "derivationPaths": {
+      "default": "m/44'/60'/0'/0/0"
     },
-    "ripple": {
-        "name": "Ripple",
-        "ticker": "XRP",
-        "derivationPaths": {
-            "default": "m/44'/144'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "ripple": {
+    "name": "Ripple",
+    "ticker": "XRP",
+    "derivationPaths": {
+      "default": "m/44'/144'/0'/0/0"
     },
-    "solana": {
-        "name": "Solana",
-        "ticker": "SOL",
-        "derivationPaths": {
-            "default": "m/44'/501'/0'/0'",
-            "Trust Wallet": "m/44'/501'/0'"
-        },
-        "curve": "ed25519"
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "solana": {
+    "name": "Solana",
+    "ticker": "SOL",
+    "derivationPaths": {
+      "default": "m/44'/501'/0'/0'",
+      "Trust Wallet": "m/44'/501'/0'"
     },
-    "stellar": {
-        "name": "Stellar",
-        "ticker": "XLM",
-        "derivationPaths": {
-            "default": "m/44'/148'/0'"
-        },
-        "curve": "ed25519"
+    "curve": "ed25519"
+  },
+  "stellar": {
+    "name": "Stellar",
+    "ticker": "XLM",
+    "derivationPaths": {
+      "default": "m/44'/148'/0'"
     },
-    "terra": {
-        "name": "Terra",
-        "ticker": "LUNA",
-        "derivationPaths": {
-            "default": "m/44'/330'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "ed25519"
+  },
+  "terra": {
+    "name": "Terra",
+    "ticker": "LUNA",
+    "derivationPaths": {
+      "default": "m/44'/330'/0'/0/0"
     },
-    "thorChain": {
-        "name": "THORChain",
-        "ticker": "RUNE",
-        "derivationPaths": {
-            "default": "m/44'/931'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "useBitcoinKeyScheme": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "thorChain": {
+    "name": "THORChain",
+    "ticker": "RUNE",
+    "derivationPaths": {
+      "default": "m/44'/931'/0'/0/0"
     },
-    "tron": {
-        "name": "TRON",
-        "ticker": "TRX",
-        "derivationPaths": {
-            "default": "m/44'/195'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true
+  },
+  "tron": {
+    "name": "TRON",
+    "ticker": "TRX",
+    "derivationPaths": {
+      "default": "m/44'/195'/0'/0/0"
     },
-    "veChain": {
-        "name": "VeChain",
-        "ticker": "VET",
-        "derivationPaths": {
-            "default": "m/44'/818'/0'/0/0"
-        },
-        "curve": "secp256k1",
-        "isEvmCompatible": true
-    }
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  },
+  "veChain": {
+    "name": "VeChain",
+    "ticker": "VET",
+    "derivationPaths": {
+      "default": "m/44'/818'/0'/0/0"
+    },
+    "curve": "secp256k1",
+    "isEvmCompatible": true
+  }
 }
