@@ -1,0 +1,75 @@
+@use "abstracts";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: abstracts.$base-font;
+  background-color: abstracts.$bg-body;
+  max-width: 840px;
+  color: abstracts.$fg-body;
+  margin: {
+    top: 2.5rem;
+    bottom: 4rem;
+    right: auto;
+    left: auto;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+input, select, textarea {
+  border: 0;
+  border-radius: abstracts.$base-radius;
+  padding: 0.75rem 1.25rem;
+  background-color: abstracts.$bg-input;
+  box-shadow: abstracts.$base-shadow;
+
+  &:disabled {
+    background-color: abstracts.$bg-input-disabled;
+    cursor: auto;
+  }
+}
+
+%select-custom-dropdown {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: {
+    image: linear-gradient(45deg, transparent 50%, gray 50%),
+      linear-gradient(135deg, gray 50%, transparent 50%);
+    position: calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15.1px) calc(1em + 2px);
+    size: 5px 5px, 5px 5px;
+    repeat: no-repeat;
+  }
+}
+
+select {
+  @extend %select-custom-dropdown;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+}
+
+label {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+[x-cloak] {
+  display: none;
+}

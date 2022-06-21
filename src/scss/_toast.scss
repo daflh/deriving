@@ -1,0 +1,13 @@
+#error-toast {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background-color: #ffb8b8;
+  color: #311f1f;
+  margin: 1.6rem 1.8rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
+  max-width: 500px;
+}
