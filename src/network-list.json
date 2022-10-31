@@ -115,6 +115,18 @@
     "p2shPrefix": 22,
     "wifPrefix": 158
   },
+  "documentchain": {
+    "name": "Documentchain",
+    "ticker": "DMS",
+    "derivationPaths": {
+      "default": "m/44'/5'/0'/0/0"
+    },
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 30,
+    "p2shPrefix": 15,
+    "wifPrefix": 133
+  },
   "elrond": {
     "name": "Elrond",
     "ticker": "EGLD",
