@@ -103,18 +103,6 @@
     "p2shPrefix": 16,
     "wifPrefix": 204
   },
-  "dogecoin": {
-    "name": "Dogecoin",
-    "ticker": "DOGE",
-    "derivationPaths": {
-      "default": "m/44'/3'/0'/0/0"
-    },
-    "curve": "secp256k1",
-    "useBitcoinKeyScheme": true,
-    "p2pkhPrefix": 30,
-    "p2shPrefix": 22,
-    "wifPrefix": 158
-  },
   "documentchain": {
     "name": "Documentchain",
     "ticker": "DMS",
@@ -126,6 +114,18 @@
     "p2pkhPrefix": 30,
     "p2shPrefix": 15,
     "wifPrefix": 133
+  },
+  "dogecoin": {
+    "name": "Dogecoin",
+    "ticker": "DOGE",
+    "derivationPaths": {
+      "default": "m/44'/3'/0'/0/0"
+    },
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 30,
+    "p2shPrefix": 22,
+    "wifPrefix": 158
   },
   "elrond": {
     "name": "Elrond",
@@ -218,6 +218,18 @@
     },
     "curve": "secp256k1",
     "useBitcoinKeyScheme": true
+  },
+  "ritocoin": {
+    "name": "Ritocoin",
+    "ticker": "RITO",
+    "derivationPaths": {
+      "default": "m/44'/19169'/0'/0/0"
+    },
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 25,
+    "p2shPrefix": 105,
+    "wifPrefix": 139
   },
   "solana": {
     "name": "Solana",
