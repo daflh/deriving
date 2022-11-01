@@ -35,6 +35,18 @@
     },
     "curve": "secp256k1"
   },
+  "bitcoinTestnet": {
+    "name": "Bitcoin Testnet",
+    "ticker": "BTC",
+    "derivationPaths": {
+      "default": "m/44'/1'/0'/0/0"
+    },
+    "curve": "secp256k1",
+    "useBitcoinKeyScheme": true,
+    "p2pkhPrefix": 111,
+    "p2shPrefix": 196,
+    "wifPrefix": 239
+  },
   "bitcoinCash": {
     "name": "Bitcoin Cash",
     "ticker": "BCH",
