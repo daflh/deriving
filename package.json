@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dafiulh/deriving.git"
+    "url": "git+https://github.com/daflh/deriving.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dafiulh/deriving/issues"
+    "url": "https://github.com/daflh/deriving/issues"
   },
-  "homepage": "https://github.com/dafiulh/deriving#readme",
+  "homepage": "https://github.com/daflh/deriving#readme",
   "dependencies": {
     "alpinejs": "^3.7.1",
     "base-x": "^3.0.9",
